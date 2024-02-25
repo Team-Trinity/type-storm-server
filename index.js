@@ -4,10 +4,14 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 5000
+const userRoute = require('./routes/UserRoute.js');
 
 // middlewares
 app.use(cors());
 app.use(express.json());
+
+
+app.use("/createUser", userRoute)
 
 
 app.listen(port, () => {
