@@ -11,6 +11,28 @@ const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecord
     }
 };
 
+
+const highScores = async() => {
+    try{
+        const topScorers = await User.find({role: "student"}, 'name wpmRecords cpmRecords').sort({wpmRecords: -1}).limit(10);
+        topScorers.sort((a, b) => Math.max(...b.wpmRecords) - Math.max(...a.wpmRecords));
+        // Get the name of the user with the highest WPM
+        // return { success: true, message: "HighScorerDetails get request successfull", data:topScorers}
+        const topUsersData = topScorers.slice(0, 10).map(user => ({
+            name: user.name,
+            topWpm: Math.max(...user.wpmRecords),
+            totalCpm: user.cpmRecords.reduce((acc, curr) => acc + curr, 0) // Sum of all items in cpmRecords array
+        }));
+
+        return {
+            success: true,
+            message: "HighScorerDetails get request successful",
+            data: topUsersData
+        };
+    } catch(error){
+        console.error("Error: can't get highScores details: ", error);
+        return {success: false, message: "Failed to get high scores"};
+
 async function getAverageSpeed(email) {
     try {
 
@@ -51,11 +73,13 @@ async function getTopSpeed(email) {
 
         console.error("Error: couldn't get top wpm", error);
         return { success: false, message: "Failed to get top wpm" };
+
     }
 }
 
 module.exports = {
     createUser,
+    highScores,
     getAverageSpeed,
     getTopSpeed
 };

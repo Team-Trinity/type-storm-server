@@ -14,6 +14,15 @@ const createUser = async (req, res) => {
 };
 
 
+const highScores = async (req, res) => {
+    const result = await userService.highScores();
+    if(result.success){
+        return res.status(200).send(result.data);
+    } else{
+        return res.status(500).send({message: result.message});
+    }
+}
+
 const getTotalLessonsTaken = async (req, res) => {
     const { userEmail } = req.params;
     try {
@@ -48,5 +57,6 @@ module.exports = {
     createUser,
     getTotalLessonsTaken
     getAverageSpeed,
-    getTopSpeed
+    getTopSpeed, 
+    highScores
 };
