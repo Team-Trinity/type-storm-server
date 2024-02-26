@@ -1,8 +1,8 @@
 const User = require("../../models/v1/User");
 
-const createUser = async ({ name, email, role, lessonsTaken, wpm, averageSpeed, totalTypedWords }) => {
+const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecords,accuracyRecords,practiceTime }) => {
     try {
-        const user = new User({ name, email, role, lessonsTaken, wpm, averageSpeed, totalTypedWords });
+        const user = new User({ name,email, role, lessonsTaken, wpmRecords,cpmRecords,accuracyRecords,practiceTime });
         await user.save();
         return { success: true, message: "User details have been saved" };
     } catch (error) {
