@@ -23,7 +23,6 @@ app.listen(PORT, () => {
         .catch(err => {
             console.error("Error connecting to database:", err);
         });
-
     console.log(`App is running on port ${PORT}`);
 });
 
