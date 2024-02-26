@@ -32,6 +32,8 @@ const highScores = async() => {
     } catch(error){
         console.error("Error: can't get highScores details: ", error);
         return {success: false, message: "Failed to get high scores"};
+    }
+}
 
 async function getAverageSpeed(email) {
     try {
@@ -77,9 +79,35 @@ async function getTopSpeed(email) {
     }
 }
 
+const calculateLessonsTaken = (wpmRecords, accuracyRecords) => {
+    const lessonsTaken = Math.min(wpmRecords.length, accuracyRecords.length);
+    return lessonsTaken;
+};
+
+
+const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords) => {    
+    try {
+        const user = await User.findOne({ email: userEmail });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        user.wpmRecords.push(...wpmRecords);
+        user.accuracyRecords.push(...accuracyRecords);
+        await user.save();
+        return { success: true, message: "WPM and accuracy records saved successfully" };
+    } catch (error) {
+        console.error("Error: WPM and accuracy records can't be saved:", error);
+        return { success: false, message: "Failed to save WPM and accuracy records" };
+    }
+};
+
+
+
 module.exports = {
     createUser,
     highScores,
     getAverageSpeed,
-    getTopSpeed
+    getTopSpeed,
+    calculateLessonsTaken,
+    saveWpmAccuracyRecords
 };
