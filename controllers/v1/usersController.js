@@ -1,5 +1,6 @@
 const userService = require("../../services/v1/userService");
-const lessonsTakenService = require("../../services/v1/lessonsTakenService");
+const lessonsTakenService = require("../../services/v1/userService");
+const wpmAccuracyService = require("../../services/v1/userService");
 const User = require("../../models/v1/User");
 
 
@@ -53,10 +54,28 @@ async function getTopSpeed(req, res) {
     })
 }
 
+
+const saveWpmAccuracyRecords = async (req, res) => {
+    const { userEmail } = req.params;
+    const { wpmRecords, accuracyRecords } = req.body;
+    try {
+        const result = await wpmAccuracyService.saveWpmAccuracyRecords(userEmail, wpmRecords, accuracyRecords);
+        if (result.success) {
+            return res.status(201).json({ message: result.message });
+        } else {
+            return res.status(500).json({ message: result.message });
+        }
+    } catch (error) {
+        console.error("Error: WPM and accuracy can't be saved:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 module.exports = {
     createUser,
-    getTotalLessonsTaken
+    getTotalLessonsTaken,
     getAverageSpeed,
     getTopSpeed, 
-    highScores
+    highScores,
+    saveWpmAccuracyRecords
 };
