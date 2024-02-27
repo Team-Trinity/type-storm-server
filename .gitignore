@@ -133,3 +133,4 @@ git
 
 # miscellaneous
 *.mybak 
+.vercel
