@@ -11,7 +11,6 @@ app.use(cors({
     origin: [
         "http://localhost:3000",
         "https://type-storm-one.vercel.app",
-        "https://type-storm-one.vercel.app",
         "https://trinity-type-storm.vercel.app",
     ]
 }));
@@ -21,8 +20,7 @@ app.use("/api/v1/users", userRoutes);
 
 
 app.listen(PORT, () => {
-    mongoose.connect(`mongodb+srv://storm:${process.env.DB_PASS}@cluster0.ddl1jzo.mongodb.net/keyStormDB?retryWrites=true&w=majority&appName=Cluster0`)
-    
+    mongoose.connect(process.env.MONGODB_URI)    
         .then(() => {
             console.log("Database connected...");
         })
