@@ -85,13 +85,14 @@ const calculateLessonsTaken = (wpmRecords, accuracyRecords) => {
 };
 
 
-const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords) => {    
+const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords, cpmRecords) => {    
     try {
         const user = await User.findOne({ email: userEmail });
         if (!user) {
             throw new Error("User not found");
         }
         user.wpmRecords.push(...wpmRecords);
+        user.cpmRecords.push(...cpmRecords);
         user.accuracyRecords.push(...accuracyRecords);
         await user.save();
         return { success: true, message: "WPM and accuracy records saved successfully" };
