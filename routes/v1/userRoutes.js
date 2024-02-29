@@ -5,6 +5,7 @@ const usersController = require("../../controllers/v1/usersController");
 const wpmAccuracyController  = require("../../controllers/v1/usersController");
 
 router.post("/:userEmail/wpm-accuracy-records", wpmAccuracyController.saveWpmAccuracyRecords);
+router.get("/data",morgan("dev"), usersController.getDataByEmail);
 router.get("/:userEmail/lessons-taken", usersController.getTotalLessonsTaken);
 router.post("/",morgan("dev"), usersController.createUser);
 router.get("/average",morgan("dev"), usersController.getAverageSpeed);

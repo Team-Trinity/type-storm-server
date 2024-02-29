@@ -14,7 +14,12 @@ const createUser = async (req, res) => {
     }
 };
 
-
+async function getDataByEmail(req, res) {
+    // getting user email from query parameter
+    userService.getDataByEmail(req.query.email).then((response) => {
+        return res.status(201).send(response)
+    })
+}
 const highScores = async (req, res) => {
     const result = await userService.highScores();
     if(result.success){
@@ -47,6 +52,7 @@ async function getAverageSpeed(req, res) {
     })
 }
 
+
 async function getTopSpeed(req, res) {
     // getting user email from query parameter
     userService.getTopSpeed(req.query.email).then((response) => {
@@ -73,6 +79,7 @@ const saveWpmAccuracyRecords = async (req, res) => {
 
 module.exports = {
     createUser,
+    getDataByEmail,
     getTotalLessonsTaken,
     getAverageSpeed,
     getTopSpeed, 
