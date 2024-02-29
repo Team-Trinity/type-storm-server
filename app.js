@@ -16,21 +16,25 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use("/api/v1/users", userRoutes);
-
-
-app.listen(PORT, () => {
-    mongoose.connect(process.env.MONGODB_URI)    
-        .then(() => {
-            console.log("Database connected...");
-        })
-        .catch(err => {
-            console.error("Error connecting to database:", err);
-        });
-    console.log(`App is running on port ${PORT}`);
-});
-
 // test route 
 app.get("/", (req, res) => {
     res.send("Server is running");
 });
+app.use("/api/v1/users", userRoutes);
+
+
+
+const runServer = async function () {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI).then(()=> {
+            console.log("Database connected...");
+        });
+    } catch (error) {
+        console.log("Error connecting to database:", error);
+    }
+    app.listen(PORT, () => {
+        console.log(`App is running on port ${PORT}`);
+    });
+};
+
+runServer()
