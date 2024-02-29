@@ -57,9 +57,9 @@ async function getTopSpeed(req, res) {
 
 const saveWpmAccuracyRecords = async (req, res) => {
     const { userEmail } = req.params;
-    const { wpmRecords, accuracyRecords } = req.body;
+    const { wpmRecords, accuracyRecords, cpmRecords } = req.body;
     try {
-        const result = await wpmAccuracyService.saveWpmAccuracyRecords(userEmail, wpmRecords, accuracyRecords);
+        const result = await wpmAccuracyService.saveWpmAccuracyRecords(userEmail, wpmRecords, accuracyRecords, cpmRecords);
         if (result.success) {
             return res.status(201).json({ message: result.message });
         } else {
