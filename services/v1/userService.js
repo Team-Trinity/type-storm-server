@@ -12,11 +12,36 @@ const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecord
 };
 async function getDataByEmail(email) {
     try {
+
         const data = await User.findOne({ email: email })
         console.log(data);
         if (!data) {
             return { success: false, message: "User not found" };
         }
+
+        // Extracting necessary fields
+        const { wpmRecords, cpmRecords, accuracyRecords } = data;
+        // Finding the maximum value in wpmRecords and cpmRecords
+        const maxWPM = Math.max(...wpmRecords);
+        const maxCPM = Math.max(...cpmRecords);
+        // Calculating average speed
+        const totalSpeed = wpmRecords.reduce((acc, val) => acc + val, 0);
+        const avgSpeed = totalSpeed / wpmRecords.length;
+        // Calculating average accuracy
+        const totalAccuracy = accuracyRecords.reduce((acc, val) => acc + val, 0);
+        const avgAccuracy = totalAccuracy / accuracyRecords.length;
+        // Calculating number of lessons taken
+        const lessonsTakenCount = wpmRecords.length;
+        return {
+            success: true,
+            message: "get request of getDataByEmail successful",
+            data: {
+                maxWPM,
+                maxCPM,
+                avgSpeed,
+                avgAccuracy, 
+                lessonsTaken: lessonsTakenCount
+            }
         return {
             success: true,
             message: "get request of getDataByEmail successful",
@@ -24,7 +49,6 @@ async function getDataByEmail(email) {
         };
 
     } catch (error) {
-
         console.error("Error: couldn't get user data", error);
         return { success: false, message: "Failed to get user data" };
     }
