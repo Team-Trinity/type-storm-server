@@ -10,7 +10,25 @@ const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecord
         return { success: false, message: "Failed to save user details" };
     }
 };
+async function getDataByEmail(email) {
+    try {
+        const data = await User.findOne({ email: email })
+        console.log(data);
+        if (!data) {
+            return { success: false, message: "User not found" };
+        }
+        return {
+            success: true,
+            message: "get request of getDataByEmail successful",
+            data: data
+        };
 
+    } catch (error) {
+
+        console.error("Error: couldn't get user data", error);
+        return { success: false, message: "Failed to get user data" };
+    }
+}
 
 const highScores = async() => {
     try{
@@ -85,13 +103,14 @@ const calculateLessonsTaken = (wpmRecords, accuracyRecords) => {
 };
 
 
-const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords) => {    
+const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords, cpmRecords) => {    
     try {
         const user = await User.findOne({ email: userEmail });
         if (!user) {
             throw new Error("User not found");
         }
         user.wpmRecords.push(...wpmRecords);
+        user.cpmRecords.push(...cpmRecords);
         user.accuracyRecords.push(...accuracyRecords);
         await user.save();
         return { success: true, message: "WPM and accuracy records saved successfully" };
@@ -105,6 +124,7 @@ const saveWpmAccuracyRecords = async (userEmail, wpmRecords, accuracyRecords) =>
 
 module.exports = {
     createUser,
+    getDataByEmail,
     highScores,
     getAverageSpeed,
     getTopSpeed,
