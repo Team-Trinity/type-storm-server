@@ -42,12 +42,6 @@ async function getDataByEmail(email) {
                 avgAccuracy, 
                 lessonsTaken: lessonsTakenCount
             }
-        return {
-            success: true,
-            message: "get request of getDataByEmail successful",
-            data: data
-        };
-
     } catch (error) {
         console.error("Error: couldn't get user data", error);
         return { success: false, message: "Failed to get user data" };
