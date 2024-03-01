@@ -13,13 +13,21 @@ const createUser = async (req, res) => {
         return res.status(500).send({ message: result.message });
     }
 };
-
 async function getDataByEmail(req, res) {
-    // getting user email from query parameter
-    userService.getDataByEmail(req.query.email).then((response) => {
-        return res.status(201).send(response)
-    })
-}
+    try {
+        const response = await userService.getDataByEmail(req.query.email);
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error("Error: couldn't get user data", error);
+        return res.status(500).json({ success: false, message: "Failed to get user data" });
+    }
+    }
+// async function getDataByEmail(req, res) {
+
+//     userService.getDataByEmail(req.query.email).then((response) => {
+//         return res.status(201).send(response)
+//     })
+// }
 const highScores = async (req, res) => {
     const result = await userService.highScores();
     if(result.success){

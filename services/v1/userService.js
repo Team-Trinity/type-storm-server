@@ -13,7 +13,15 @@ const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecord
 async function getDataByEmail(email) {
     try {
         const data = await User.findOne({ email: email })
-        return data;
+        console.log(data);
+        if (!data) {
+            return { success: false, message: "User not found" };
+        }
+        return {
+            success: true,
+            message: "get request of getDataByEmail successful",
+            data: data
+        };
 
     } catch (error) {
 
