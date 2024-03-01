@@ -12,11 +12,13 @@ const createUser = async ({ name,email, role, lessonsTaken, wpmRecords,cpmRecord
 };
 async function getDataByEmail(email) {
     try {
-        const data = await User.findOne({ email: email });
+
+        const data = await User.findOne({ email: email })
         console.log(data);
         if (!data) {
             return { success: false, message: "User not found" };
         }
+
         // Extracting necessary fields
         const { wpmRecords, cpmRecords, accuracyRecords } = data;
         // Finding the maximum value in wpmRecords and cpmRecords
@@ -40,6 +42,10 @@ async function getDataByEmail(email) {
                 avgAccuracy, 
                 lessonsTaken: lessonsTakenCount
             }
+        return {
+            success: true,
+            message: "get request of getDataByEmail successful",
+            data: data
         };
 
     } catch (error) {
