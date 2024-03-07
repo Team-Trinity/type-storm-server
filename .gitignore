@@ -134,3 +134,6 @@ git
 # miscellaneous
 *.mybak 
 .vercel
+
+# pnpm-lock file
+pnpm-lock.yaml
